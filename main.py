@@ -57,7 +57,7 @@ async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE)
             text=welcome_text,
             parse_mode="Markdown"
         )
-        logging.info(f5"Sent welcome message to {user.full_name}")
+        logging.info(f"Sent welcome message to {user.full_name}")
 
 except Exception as e:
     logging.error(f"Failed to process join request for {user.id}: {e}")
