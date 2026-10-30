@@ -16,7 +16,7 @@ app = Flask('')
 
 @app.route('/')
 def home():
-return "JetQueen Bot is Alive and Running!"
+    return "JetQueen Bot is Alive and Running!"
 
 def run_web():
 port = int(os.environ.get("PORT", 8080))
