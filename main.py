@@ -30,7 +30,7 @@ async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE)
             await chat.approve_chat_join_request(user.id)
             logging.info(f"Approved join request for {user.full_name}")
 
-        welcome_text = (
+    welcome_text = (
             f"❤️ Hey {user.first_name} ❤️‍🔥\n\n" 
             "🍸 Say goodbye to random guesses — JetQueen's proven strategies and smart analysis will help you grow your balance like never before! 💰\n\n"
             "Start today with just 2000 minimum deposit \n"
