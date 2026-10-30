@@ -48,7 +48,7 @@ async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE)
             "Let’s make your next game your biggest win!... ❤️‍🔥"
         )
 
-        IMAGE_1_URL = "https://i.postimg.cc/FzZ11GVQ/IMG-3564.png"
+        IMAGE_1_URL = "https://chatgpt.com/s/m_6ae4e862ecb08191ba6b6a83c0723ed6"
         await context.bot.send_photo(
             chat_id=user.id,
             photo=IMAGE_1_URL,
@@ -65,10 +65,10 @@ async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE)
             "2️⃣ Deposit 2000 capital 💰\n\n"
             "3️⃣ Send me the ID - @JetQueen_Silpa\n"
             "Vip channel FREE of cost.... 🚀\n\n"
-            "🚨Only for serious players who want next-level signals! 💯🚀"
+            "🔥Only for serious players who want next-level signals! 💯🚀"
         )
 
-        IMAGE_2_URL = "https://i.postimg.cc/85Zq56rQ/IMG-3565.png"
+        IMAGE_2_URL = "https://chatgpt.com/s/m_6ae4e85828808191891657bbc3bdcbff"
         await context.bot.send_photo(
             chat_id=user.id,
             photo=IMAGE_2_URL,
@@ -105,7 +105,7 @@ async def welcome_on_join(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
                 "Let’s make your next game your biggest win!... ❤️‍🔥"
             )
 
-            IMAGE_1_URL = "https://i.postimg.cc/FzZ11GVQ/IMG-356i.png"
+            IMAGE_1_URL = "https://chatgpt.com/s/m_6ae4e862ecb08191ba6b6a83c0723ed6"
             await context.bot.send_photo(
                 chat_id=user.id,
                 photo=IMAGE_1_URL,
@@ -122,10 +122,10 @@ async def welcome_on_join(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
                 "2️⃣ Deposit 2000 capital 💰\n\n"
                 "3️⃣ Send me the ID - @JetQueen_Silpa\n"
                 "Vip channel FREE of cost.... 🚀\n\n"
-                "🚨Only for serious players who want next-level signals! 💯🚀"
+                "🔥Only for serious players who want next-level signals! 💯🚀"
             )
 
-            IMAGE_2_URL = "https://i.postimg.cc/85Zq56rQ/IMG-3565.png"
+            IMAGE_2_URL = "https://chatgpt.com/s/m_6ae4e85828808191891657bbc3bdcbff"
             await context.bot.send_photo(
                 chat_id=user.id,
                 photo=IMAGE_2_URL,
