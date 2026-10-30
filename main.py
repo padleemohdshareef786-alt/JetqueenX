@@ -31,7 +31,7 @@ async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE)
     user = chat_join_request.from_user
 
     try:
-        await chat.approve_chat_join_request.approve()
+        await chat_join_request.approve()
         logging.info(f"Approved join request for {user.full_name}")
 
         welcome_text = (
