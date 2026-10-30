@@ -7,7 +7,7 @@ from telegram.ext import ApplicationBuilder, ChatJoinRequestHandler, ChatMemberH
 
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 
-TOKEN = "9287218663:AAGNm93OSewMkxOHgnKDnX7TKJY1jIO-Xmc"
+TOKEN = "9287218663:AAGprOM75xF7GLYclMjPUX3T4duCk7jrSg8"
 
 app = Flask('')
 
