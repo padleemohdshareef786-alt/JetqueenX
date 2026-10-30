@@ -102,7 +102,7 @@ async def welcome_on_join(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
 
 def main() -> None:
     keep_alive()
-    application = ApplicationBuilder().token(TOKEN).build()
+    application = ApplicationBuilder().token(TOKEN).connect_timeout(30).read_timeout(30).write_timeout(30).build()
     application.add_handler(ChatJoinRequestHandler(accept_and_welcome))
     application.add_handler(ChatMemberHandler(welcome_on_join, ChatMemberHandler.CHAT_MEMBER))
     print("Bot and Web Server are running...")
