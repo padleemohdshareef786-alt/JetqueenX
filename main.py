@@ -5,31 +5,22 @@ from flask import Flask
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ChatJoinRequestHandler, ContextTypes
 
-logging.basicConfig(
-format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-level=logging.INFO
-)
+logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 
 TOKEN = "9287218663:AAGNm93OSewMkxOHgnKDnX7TKJY1jIO-Xmc"
 
 app = Flask('')
 
 @app.route('/')
-def home():
-    return "JetQueen Bot is Alive and Running!"
+def home(): return "JetQueen Bot is Alive and Running!"
 
-def run_web():
-port = int(os.environ.get("PORT", 8080))
-app.run(host='0.0.0.0', port=port)
+def run_web(): app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 8080)))
 
-def keep_alive():
-t = Thread(target=run_web)
-t.start()
+def keep_alive(): Thread(target=run_web).start()
 
 async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 chat_join_request = update.chat_join_request
-if not chat_join_request:
-return
+if not chat_join_request: return
 
 chat = chat_join_request.chat
 user = chat_join_request.from_user
@@ -65,7 +56,7 @@ chat_id=user.id,
 text=welcome_text,
 parse_mode="Markdown"
 )
-logging.info(f"Sent welcome message to {user.full_name}")
+logging.info(f5"Sent welcome message to {user.full_name}")
 
 except Exception as e:
 logging.error(f"Failed to process join request for {user.id}: {e}")
