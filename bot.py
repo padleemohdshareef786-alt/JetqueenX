@@ -1,4 +1,7 @@
 import logging
+import os
+from threading import Thread
+from flask import Flask
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ChatJoinRequestHandler, ContextTypes
 
@@ -8,7 +11,23 @@ format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 level=logging.INFO
 )
 
-TOKEN = "9287218663:AAGNm93OSewMkxOHgnKDnX7TKJY1jIO-Xmc" # Yahan apna token paste karna (quotes ke andar hi rehne dena)
+TOKEN = "9287218663:AAGNm93OSewMkxOHgnKDnX7TKJY1jIO-Xmc" # Yahan apna BotFather wala token dalna
+
+# --- CHHOTA SA WEB SERVER (Render Web Service ke liye) ---
+app = Flask('')
+
+@app.route('/')
+def home():
+return "JetQueen Bot is Alive and Running!"
+
+def run_web():
+port = int(os.environ.get("PORT", 8080))
+app.run(host='0.0.0.0', port=port)
+
+def keep_alive():
+t = Thread(target=run_web)
+t.start()
+# ---------------------------------------------------------
 
 async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 chat_join_request = update.chat_join_request
@@ -58,12 +77,14 @@ except Exception as e:
 logging.error(f"Failed to process join request for {user.id}: {e}")
 
 def main() -> None:
+# Pehle web server start karo taaki Render port detect kar sake
+keep_alive()
+
+# Phir Telegram bot start karo
 application = ApplicationBuilder().token(TOKEN).build()
 application.add_handler(ChatJoinRequestHandler(accept_and_welcome))
-print("Bot is running...")
+print("Bot and Web Server are running...")
 application.run_polling()
 
 if __name__ == "__main__":
 main()
-
-
