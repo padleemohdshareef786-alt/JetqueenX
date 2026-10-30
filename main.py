@@ -58,8 +58,7 @@ async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
         await context.bot.send_message(
             chat_id=user.id,
-            text=welcome_text,
-            parse_mode="Markdown"
+            text=welcome_text
         )
         logging.info(f"Sent welcome message to {user.full_name}")
 
