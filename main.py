@@ -36,8 +36,8 @@ async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
         # Pehla Welcome Message (Screenshot 6 ke exact text aur animated emojis ke sath)[span_2](start_span)[span_2](end_span)
         welcome_text_1 = (
-            f"<tg-emoji emoji-id=\"6334860759104755103\">🤍</tg-emoji> **Hey JetQueen Community** <tg-emoji emoji-id=\"6334860759104755103\">❤️‍🔥</tg-emoji>\n\n"
-            "<tg-emoji emoji-id=\"6334860759104755103\">🤨</tg-emoji> Say goodbye to random guesses — JetQueen's proven strategies and smart analysis will help you grow your balance like never before! <tg-emoji emoji-id=\"6334860759104755103\">💰</tg-emoji>\n\n"
+            f"<tg-emoji emoji-id=\"6332147812947465142\">🤍</tg-emoji> **Hey JetQueen Community** <tg-emoji emoji-id=\"6334860759104755103\">❤️‍🔥</tg-emoji>\n\n"
+            "<tg-emoji emoji-id=\"5217449524410199951\">🙂</tg-emoji> Say goodbye to random guesses — JetQueen's proven strategies and smart analysis will help you grow your balance like never before! <tg-emoji emoji-id=\"6332375519228597344\">💰</tg-emoji>\n\n"
             "Start today with just 2000 minimum deposit\n"
             "use Promo Code: DS745 and unlock your full earning potential\n"
             "<tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n\n"
@@ -98,8 +98,8 @@ async def welcome_on_join(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     if result.new_chat_member.status == "member":
         try:
             welcome_text_1 = (
-                f"<tg-emoji emoji-id=\"6334860759104755103\">🤍</tg-emoji> **Hey JetQueen Community** <tg-emoji emoji-id=\"6334860759104755103\">❤️‍🔥</tg-emoji>\n\n"
-                "<tg-emoji emoji-id=\"6334860759104755103\">🤨</tg-emoji> Say goodbye to random guesses — JetQueen's proven strategies and smart analysis will help you grow your balance like never before! <tg-emoji emoji-id=\"6334860759104755103\">💰</tg-emoji>\n\n"
+                f"<tg-emoji emoji-id=\"6332147812947465142\">🤍</tg-emoji> **Hey JetQueen Community** <tg-emoji emoji-id=\"6334860759104755103\">❤️‍🔥</tg-emoji>\n\n"
+                "<tg-emoji emoji-id=\"5217449524410199951\">🙂</tg-emoji> Say goodbye to random guesses — JetQueen's proven strategies and smart analysis will help you grow your balance like never before! <tg-emoji emoji-id=\"6332375519228597344\">💰</tg-emoji>\n\n"
                 "Start today with just 2000 minimum deposit\n"
                 "use Promo Code: DS745 and unlock your full earning potential\n"
                 "<tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n\n"
