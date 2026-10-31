@@ -61,16 +61,16 @@ async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
         # Doosra Welcome Message (Screenshot 4 ke exact text aur animated emojis ke sath)[span_3](start_span)[span_3](end_span)
         welcome_text_2 = (
-            "<tg-emoji emoji-id=\"6334860759104755103\">🚨</tg-emoji> Want to join PRIME Channel for FREE? Here's how: <tg-emoji emoji-id=\"6334860759104755103\">📌</tg-emoji>\n\n"
-            "<tg-emoji emoji-id=\"6334860759104755103\">1️⃣</tg-emoji> Create a fresh new account on 1win\n"
-            "INDIA <tg-emoji emoji-id=\"6334860759104755103\">🇮🇳</tg-emoji> & GLOBAL LINK <tg-emoji emoji-id=\"6334860759104755103\">🔗</tg-emoji>\n\n"
+            "<tg-emoji emoji-id=\"6334870895227573067\">🚨</tg-emoji> Want to join PRIME Channel for FREE? Here's how: <tg-emoji emoji-id=\"6332267526570906235\">📌</tg-emoji>\n\n"
+            "<tg-emoji emoji-id=\"5305763715692377402\">1️⃣</tg-emoji> Create a fresh new account on 1win\n"
+            "INDIA <tg-emoji emoji-id=\"6136551252781172945\">🇮🇳</tg-emoji> & GLOBAL LINK <tg-emoji emoji-id=\"5271604874419647061\">🔗</tg-emoji>\n\n"
             "https://lkhe.cc/3e6ff0\n"
             "https://lkhe.cc/3e6ff0\n\n"
-            "<tg-emoji emoji-id=\"6334860759104755103\">📌</tg-emoji> Use promo code : DS745 <tg-emoji emoji-id=\"6334860759104755103\">💯</tg-emoji><tg-emoji emoji-id=\"6334860759104755103\">‼️</tg-emoji>\n\n"
-            "<tg-emoji emoji-id=\"6334860759104755103\">2️⃣</tg-emoji> Deposit 2000 capital <tg-emoji emoji-id=\"6334860759104755103\">💰</tg-emoji>\n\n"
-            "<tg-emoji emoji-id=\"6334860759104755103\">3️⃣</tg-emoji> Send me the ID - @JetQueen_Silpa\n"
+            "<tg-emoji emoji-id=\"5397782960512444700\">📌</tg-emoji> Use promo code : DS745 <tg-emoji emoji-id=\"5341498088408234504\">💯</tg-emoji><tg-emoji emoji-id=\"6332595047891997036\">‼️</tg-emoji>\n\n"
+            "<tg-emoji emoji-id=\"5307907239380528763\">2️⃣</tg-emoji> Deposit 2000 capital <tg-emoji emoji-id=\"6332375519228597344\">💰</tg-emoji>\n\n"
+            "<tg-emoji emoji-id=\"5305783000095537258\">3️⃣</tg-emoji> Send me the ID - @JetQueen_Silpa\n"
             "Vip channel FREE of cost.... <tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n\n"
-            "<tg-emoji emoji-id=\"6334860759104755103\">🚨</tg-emoji>Only for serious players who want next-level signals! <tg-emoji emoji-id=\"6334860759104755103\">💯</tg-emoji><tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>"
+            "<tg-emoji emoji-id=\"5395695537687123235\">🚨</tg-emoji>Only for serious players who want next-level signals! <tg-emoji emoji-id=\"5341498088408234504\">💯</tg-emoji><tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>"
         )
 
         IMAGE_2_URL = "https://chatgpt.com/s/m_6ae4e85828808191891657bbc3bdcbff"
