@@ -51,7 +51,7 @@ async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE)
             "Let’s make your next game your biggest win!... <tg-emoji emoji-id=\"6334860759104755103\">❤️‍🔥</tg-emoji>"
         )
 
-        IMAGE_1_URL = "https://i.postimg.cc/FzZ11GVQ/IMG-3564"
+        IMAGE_1_URL = "https://chatgpt.com/s/m_6ae4e862ecb08191ba6b6a83c0723ed6"
         await context.bot.send_photo(
             chat_id=user.id,
             photo=IMAGE_1_URL,
@@ -73,7 +73,7 @@ async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE)
             "<tg-emoji emoji-id=\"6334860759104755103\">🚨</tg-emoji>Only for serious players who want next-level signals! <tg-emoji emoji-id=\"6334860759104755103\">💯</tg-emoji><tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>"
         )
 
-        IMAGE_2_URL = "https://i.postimg.cc/YOUR_SECOND_IMAGE_LINK"
+        IMAGE_2_URL = "https://chatgpt.com/s/m_6ae4e85828808191891657bbc3bdcbff"
         await context.bot.send_photo(
             chat_id=user.id,
             photo=IMAGE_2_URL,
@@ -113,7 +113,7 @@ async def welcome_on_join(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
                 "Let’s make your next game your biggest win!... <tg-emoji emoji-id=\"6334860759104755103\">❤️‍🔥</tg-emoji>"
             )
 
-            IMAGE_1_URL = "https://i.postimg.cc/FzZ11GVQ/IMG-3564"
+            IMAGE_1_URL = "https://chatgpt.com/s/m_6ae4e862ecb08191ba6b6a83c0723ed6"
             await context.bot.send_photo(
                 chat_id=user.id,
                 photo=IMAGE_1_URL,
@@ -134,7 +134,7 @@ async def welcome_on_join(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
                 "<tg-emoji emoji-id=\"6334860759104755103\">🚨</tg-emoji>Only for serious players who want next-level signals! <tg-emoji emoji-id=\"6334860759104755103\">💯</tg-emoji><tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>"
             )
 
-            IMAGE_2_URL = "https://i.postimg.cc/YOUR_SECOND_IMAGE_LINK"
+            IMAGE_2_URL = "https://chatgpt.com/s/m_6ae4e85828808191891657bbc3bdcbff"
             await context.bot.send_photo(
                 chat_id=user.id,
                 photo=IMAGE_2_URL,
