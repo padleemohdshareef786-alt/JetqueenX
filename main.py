@@ -1,5 +1,6 @@
 import logging
 import os
+import asyncio
 from threading import Thread
 from flask import Flask
 import sqlite3
@@ -59,9 +60,7 @@ def keep_alive():
     t = Thread(target=run_web)
     t.start()
 
-TOKEN = "9287218663:AAEq5ggjRCD8lP0NwVAYYiKcs3Bh2nIjdAo"
-
-# Aapki Voice File ki Direct Telegram ID
+TOKEN = "9287218663:AAFyuCy8-Lt3FcBPym6pTCRdTB3qeypHImA"
 VOICE_FILE_ID = "AwACAgUAAxkBAAEkGyNq52fFMU22IyUKqc9o1r0zUXCwgACViUAAgOPF3L1DUaILeVD0AE"
 
 async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -77,6 +76,7 @@ async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
         await chat_join_request.approve()
         logging.info(f"Approved join request for {user.full_name}")
+        await asyncio.sleep(1)
 
         # 1. Welcome Message 1
         welcome_text_1 = (
@@ -101,6 +101,7 @@ async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE)
             caption=welcome_text_1,
             parse_mode="HTML"
         )
+        await asyncio.sleep(1)
 
         # 2. Welcome Message 2
         welcome_text_2 = (
@@ -122,8 +123,9 @@ async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE)
             caption=welcome_text_2,
             parse_mode="HTML"
         )
+        await asyncio.sleep(1)
 
-        # 3. Voice Message (Sabse Last Me using File ID)
+        # 3. Voice Message (File ID)
         try:
             await context.bot.send_voice(
                 chat_id=user.id,
@@ -151,7 +153,6 @@ async def welcome_on_join(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         try:
             add_user(user.id, user.full_name)
 
-            # 1. Welcome Message 1
             welcome_text_1 = (
                 f"<tg-emoji emoji-id=\"6332147812947465142\">🤍</tg-emoji> **Hey JetQueen Community** <tg-emoji emoji-id=\"6332147812947465142\">❤️‍🔥</tg-emoji>\n\n"
                 "<tg-emoji emoji-id=\"5217449524410199951\">🙂</tg-emoji> Say goodbye to random guesses — JetQueen's proven strategies and smart analysis will help you grow your balance like never before! <tg-emoji emoji-id=\"6332375519228597344\">💰</tg-emoji>\n\n"
@@ -174,8 +175,8 @@ async def welcome_on_join(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
                 caption=welcome_text_1,
                 parse_mode="HTML"
             )
+            await asyncio.sleep(1)
 
-            # 2. Welcome Message 2
             welcome_text_2 = (
                 "<tg-emoji emoji-id=\"6334870895227573067\">🚨</tg-emoji> Want to join PRIME Channel for FREE? Here's how: <tg-emoji emoji-id=\"6332267526570906235\">📌</tg-emoji>\n\n"
                 "<tg-emoji emoji-id=\"5305763715692377402\">1️⃣</tg-emoji> Create a fresh new account on 1win\n"
@@ -195,8 +196,8 @@ async def welcome_on_join(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
                 caption=welcome_text_2,
                 parse_mode="HTML"
             )
+            await asyncio.sleep(1)
 
-            # 3. Voice Message (Sabse Last Me using File ID)
             try:
                 await context.bot.send_voice(
                     chat_id=user.id,
@@ -226,6 +227,7 @@ async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         try:
             await context.bot.send_message(chat_id=user_id, text=message_text, parse_mode="HTML")
             success += 1
+            await asyncio.sleep(0.05)
         except Exception:
             failed += 1
 
@@ -234,7 +236,15 @@ async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 def main() -> None:
     init_db()
     keep_alive()
-    application = ApplicationBuilder().token(TOKEN).connect_timeout(30).read_timeout(30).write_timeout(30).build()
+    application = (
+        ApplicationBuilder()
+        .token(TOKEN)
+        .connect_timeout(60)
+        .read_timeout(60)
+        .write_timeout(60)
+        .pool_timeout(60)
+        .build()
+    )
 
     application.add_handler(ChatJoinRequestHandler(accept_and_welcome))
     application.add_handler(ChatMemberHandler(welcome_on_join, ChatMemberHandler.CHAT_MEMBER))
