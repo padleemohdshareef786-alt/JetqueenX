@@ -212,7 +212,7 @@ async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         except Exception:
             failed += 1
 
-     await status_msg.edit_text(f"✅ Broadcast Done!\n\nSuccess: {success}\nFailed: {failed}")
+    await status_msg.edit_text(f"✅ Broadcast Done!\n\nSuccess: {success}\nFailed: {failed}")
 
 def main() -> None:
     init_db() # Database table create karega
