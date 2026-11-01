@@ -9,6 +9,8 @@ from telegram.ext import (
     ChatJoinRequestHandler,
     ChatMemberHandler,
     CommandHandler,
+    MessageHandler,
+    filters,
     ContextTypes
 )
 
@@ -63,6 +65,13 @@ TOKEN = "8799481114:AAF9Z1OFISsXk_qBd9b-nzUARYYXxUs2e3M"
 
 # Aapka voice file_id jo JsonDumpBot se mila hai
 VOICE_FILE_ID = "AwACAgUAAxkBAAEkGJpq5xpMNR5uej8yQqSgNoDe0YU9nwACCcEAAankB0VdJShUewJ0nWD0E"
+
+# --- HELPER TO GET CORRECT VOICE FILE ID IF ERROR OCCURS ---
+async def get_voice_id(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if update.message and update.message.voice:
+        file_id = update.message.voice.file_id
+        logging.info(f"===> NAYA CORRECT VOICE FILE ID: {file_id} <===")
+        await update.message.reply_text(f"✅️ Voice ID mil gaya!\n`{file_id}`\nRender logs check karo.", parse_mode="Markdown")
 
 async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_join_request = update.chat_join_request
