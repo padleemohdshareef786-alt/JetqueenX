@@ -68,10 +68,10 @@ VOICE_FILE_ID = "AwACAgUAAxkBAAEkGJpq5xpMNR5uej8yQqSgNoDe0YU9nwACCcEAAankB0VdJSh
 
 # --- HELPER TO GET CORRECT VOICE FILE ID IF ERROR OCCURS ---
 async def get_voice_id(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    if update.message and update.message.voice:
-        file_id = update.message.voice.file_id
-        logging.info(f"===> NAYA CORRECT VOICE FILE ID: {file_id} <===")
-        await update.message.reply_text(f"✅️ Voice ID mil gaya!\n`{file_id}`\nRender logs check karo.", parse_mode="Markdown")
+    audio_msg = update.message.voice or update.message.audio or update.message.document
+    if audio_msg:
+        file_id = audio_msg.file_id
+        await update.message.reply_text(f"👇 Yeh lo aapka exact file_id:\n\n`{file_id}`", parse_mode="Markdown")
 
 async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_join_request = update.chat_join_request
