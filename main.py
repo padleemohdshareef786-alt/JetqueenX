@@ -22,10 +22,10 @@ def init_db():
         CREATE TABLE IF NOT EXISTS users (
             user_id INTEGER PRIMARY KEY,
             full_name TEXT
-            )
-        """)
-        conn.commit()
-        conn.close()
+        )
+    """)
+    conn.commit()
+    conn.close()
 
 def add_user(user_id, full_name):
     conn = sqlite3.connect("bot_users.db")
