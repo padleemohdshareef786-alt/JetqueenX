@@ -62,7 +62,7 @@ def keep_alive():
 TOKEN = "9287218663:AAEq5ggjRCD8lP0NwVAYYiKcs3Bh2nIjdAo"
 
 # Aapki Voice File ki Direct Telegram ID
-VOICE_FILE_ID = "AwACAgUAAxkBAAEkGyNq52fFMU22IyUKqc9o1r0zUXCwgACViUAAgOPF3L1DUaILeVD0AE[span_2](start_span)"[span_2](end_span)
+VOICE_FILE_ID = "AwACAgUAAxkBAAEkGyNq52fFMU22IyUKqc9o1r0zUXCwgACViUAAgOPF3L1DUaILeVD0AE"
 
 async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_join_request = update.chat_join_request
