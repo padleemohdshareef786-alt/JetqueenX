@@ -126,7 +126,7 @@ async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE)
         # Voice note bhejne ka code
         await context.bot.send_voice(
             chat_id=user.id,
-            voice=VOICE_FILE_ID
+            audio=VOICE_FILE_ID
         )
 
         logging.info(f"Sent welcome images, messages and voice to {user.full_name}")
@@ -195,7 +195,7 @@ async def welcome_on_join(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
             # Voice note bhejne ka code
             await context.bot.send_voice(
                 chat_id=user.id,
-                voice=VOICE_FILE_ID
+                audio=VOICE_FILE_ID
             )
 
             logging.info(f"Sent manual welcome images, messages and voice to {user.full_name}")
