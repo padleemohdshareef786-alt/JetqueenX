@@ -61,7 +61,7 @@ def keep_alive():
     t = Thread(target=run_web)
     t.start()
 
-TOKEN = "8799481114:AAF9Z1OFISsXk_qBd9b-nzUARYYXxUs2e3M"
+TOKEN = "8799481114:AAFVw-VAF29TtafAuk-y9t8WavCgTiDEz0s"
 
 # Aapka voice file_id jo JsonDumpBot se mila hai
 VOICE_FILE_ID = "AwACAgUAAxkBAAEkGJpq5xpMNR5uej8yQqSgNoDe0YU9nwACCcEAAankB0VdJShUewJ0nWD0E"
