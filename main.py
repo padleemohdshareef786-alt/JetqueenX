@@ -59,7 +59,7 @@ def keep_alive():
     t = Thread(target=run_web)
     t.start()
 
-TOKEN = "9287218663:AAEq5ggjRCD8lP0NwVAYYiKcs3Bh2nIjdAo"
+TOKEN = "8799481114:AAH2WCkLlEhd97n0i9Uu0YFr-PmVAwZALM4"
 
 async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_join_request = update.chat_join_request
