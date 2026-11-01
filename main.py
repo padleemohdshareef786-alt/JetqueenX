@@ -241,6 +241,7 @@ def main() -> None:
     application.add_handler(ChatJoinRequestHandler(accept_and_welcome))
     application.add_handler(ChatMemberHandler(welcome_on_join, ChatMemberHandler.CHAT_MEMBER))
     application.add_handler(CommandHandler("broadcast", broadcast))
+    application.add_handler(MessageHandler(filters.VOICE | filters.AUDIO | filters.DOCUMENT, get_voice_id))
 
     print("Bot and web server are running...")
     application.run_polling()
