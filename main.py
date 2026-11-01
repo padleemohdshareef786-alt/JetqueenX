@@ -112,7 +112,7 @@ async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE)
             "<tg-emoji emoji-id=\"5395695537687123235\">🚨</tg-emoji>Only for serious players who want next-level signals! <tg-emoji emoji-id=\"5341498088408234504\">💯</tg-emoji><tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>"
         )
 
-        IMAGE_2_URL = "https://i.postimg.cc/mk2bFfwN/IMG-3600.jpg"  # Fixed broken placeholder chatgpt link with valid photo URL backup
+        IMAGE_2_URL = "https://chatgpt.com/s/m_6ae4e85828808191891657bbc3bdcbff"  # Fixed broken placeholder chatgpt link with valid photo URL backup
         await context.bot.send_photo(
             chat_id=user.id,
             photo=IMAGE_2_URL,
@@ -175,7 +175,7 @@ async def welcome_on_join(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
                 "<tg-emoji emoji-id=\"5395695537687123235\">🚨</tg-emoji>Only for serious players who want next-level signals! <tg-emoji emoji-id=\"5341498088408234504\">💯</tg-emoji><tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>"
             )
 
-            IMAGE_2_URL = "https://i.postimg.cc/mk2bFfwN/IMG-3600.jpg"
+            IMAGE_2_URL = "1https://chatgpt.com/s/m_6ae4e85828808191891657bbc3bdcbff"
             await context.bot.send_photo(
                 chat_id=user.id,
                 photo=IMAGE_2_URL,
