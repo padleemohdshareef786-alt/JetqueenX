@@ -2,161 +2,231 @@ import logging
 import os
 from threading import Thread
 from flask import Flask
+import sqlite3
 from telegram import Update
-from telegram.ext import ApplicationBuilder, ChatJoinRequestHandler, ChatMemberHandler, ContextTypes
+from telegram.ext import (
+ApplicationBuilder,
+ChatJoinRequestHandler,
+ChatMemberHandler,
+CommandHandler,
+ContextTypes
+)
 
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
+
+# --- DATABASE SETUP (Users save karne ke liye) ---
+def init_db():
+conn = sqlite3.connect("bot_users.db")
+cursor = conn.cursor()
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS users (
+user_id INTEGER PRIMARY KEY,
+full_name TEXT
+)
+""")
+conn.commit()
+conn.close()
+
+def add_user(user_id, full_name):
+conn = sqlite3.connect("bot_users.db")
+cursor = conn.cursor()
+try:
+cursor.execute("INSERT OR IGNORE INTO users (user_id, full_name) VALUES (?, ?)", (user_id, full_name))
+conn.commit()
+except Exception as e:
+logging.error(f"DB Error: {e}")
+finally:
+conn.close()
+
+def get_all_users():
+conn = sqlite3.connect("bot_users.db")
+cursor = conn.cursor()
+cursor.execute("SELECT user_id FROM users")
+users = cursor.fetchall()
+conn.close()
+return [user[0] for user in users]
 
 app = Flask('')
 
 @app.route('/')
 def home():
-    return "Jetqueen Bot is Alive and Running!"
+return "Jetqueen Bot is Alive and Running!"
 
 def run_web():
-    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 8080)))
+app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 8080)))
 
 def keep_alive():
-    t = Thread(target=run_web)
-    t.start()
+t = Thread(target=run_web)
+t.start()
 
 TOKEN = "8799481114:AAF9Z1OFISsXk_qBd9b-nzUARYYXxUs2e3M"
 
 async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    chat_join_request = update.chat_join_request
-    if not chat_join_request:
-        return
+chat_join_request = update.chat_join_request
+if not chat_join_request:
+return
 
-    try:
-        chat = chat_join_request.chat
-        user = chat_join_request.from_user
+try:
+chat = chat_join_request.chat
+user = chat_join_request.from_user
 
-        await chat_join_request.approve()
-        logging.info(f"Approved join request for {user.full_name}")
+# User ko database me save karein
+add_user(user.id, user.full_name)
 
-        # Pehla Welcome Message (Screenshot 6 ke exact text aur animated emojis ke sath)[span_2](start_span)[span_2](end_span)
-        welcome_text_1 = (
-            f"<tg-emoji emoji-id=\"6332147812947465142\">🤍</tg-emoji> **Hey JetQueen Community** <tg-emoji emoji-id=\"6332147812947465142\">❤️‍🔥</tg-emoji>\n\n"
-            "<tg-emoji emoji-id=\"5217449524410199951\">🙂</tg-emoji> Say goodbye to random guesses — JetQueen's proven strategies and smart analysis will help you grow your balance like never before! <tg-emoji emoji-id=\"6332375519228597344\">💰</tg-emoji>\n\n"
-            "Start today with just 2000 minimum deposit\n"
-            "use Promo Code: DS745 and unlock your full earning potential\n"
-            "<tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n\n"
-            "<tg-emoji emoji-id=\"6334860759104755103\">👉</tg-emoji> Create your account now:\n"
-            "<tg-emoji emoji-id=\"6334860759104755103\">🌐</tg-emoji> https://lkhe.cc/3e6ff0\n"
-            "<tg-emoji emoji-id=\"6334860759104755103\">🌐</tg-emoji> https://lkhe.cc/3e6ff0\n\n"
-            "<tg-emoji emoji-id=\"6334860759104755103\">🎁</tg-emoji> Promo code:- DS745 <tg-emoji emoji-id=\"6334860759104755103\">✔️</tg-emoji>\n\n"
-            "Message me ID number......me guide karungi apko ki kese earn karna hai bina loss or sahi money management karke <tg-emoji emoji-id=\"6334860759104755103\">💖</tg-emoji>\n\n"
-            "Join us and fly high with Aviator\n"
-            "<tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n"
-            "Let’s make your next game your biggest win!... <tg-emoji emoji-id=\"6334860759104755103\">❤️‍🔥</tg-emoji>"
-        )
+await chat_join_request.approve()
+logging.info(f"Approved join request for {user.full_name}")
 
-        IMAGE_1_URL = "https://i.postimg.cc/mk2bFfwN/IMG-3600.jpg"
-        await context.bot.send_photo(
-            chat_id=user.id,
-            photo=IMAGE_1_URL,
-            caption=welcome_text_1,
-            parse_mode="HTML"
-        )
+# Pehla Welcome Message
+welcome_text_1 = (
+f"<tg-emoji emoji-id=\"6332147812947465142\">🤍</tg-emoji> **Hey JetQueen Community** <tg-emoji emoji-id=\"6332147812947465142\">❤️‍🔥</tg-emoji>\n\n"
+"<tg-emoji emoji-id=\"5217449524410199951\">🙂</tg-emoji> Say goodbye to random guesses — JetQueen's proven strategies and smart analysis will help you grow your balance like never before! <tg-emoji emoji-id=\"6332375519228597344\">💰</tg-emoji>\n\n"
+"Start today with just 2000 minimum deposit\n"
+"use Promo Code: DS745 and unlock your full earning potential\n"
+"<tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n\n"
+"<tg-emoji emoji-id=\"6334860759104755103\">👉</tg-emoji> Create your account now:\n"
+"<tg-emoji emoji-id=\"6334860759104755103\">🌐</tg-emoji> https://lkhe.cc/3e6ff0\n"
+"<tg-emoji emoji-id=\"6334860759104755103\">🌐</tg-emoji> https://lkhe.cc/3e6ff0\n\n"
+"<tg-emoji emoji-id=\"6334860759104755103\">🎁</tg-emoji> Promo code:- DS745 <tg-emoji emoji-id=\"6334860759104755103\">✔️</tg-emoji>\n\n"
+"Message me ID number......me guide karungi apko ki kese earn karna hai bina loss or sahi money management karke <tg-emoji emoji-id=\"6334860759104755103\">💖</tg-emoji>\n\n"
+"Join us and fly high with Aviator\n"
+"<tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n"
+"Let’s make your next game your biggest win!... <tg-emoji emoji-id=\"6334860759104755103\">❤️‍🔥</tg-emoji>"
+)
 
-        # Doosra Welcome Message (Screenshot 4 ke exact text aur animated emojis ke sath)[span_3](start_span)[span_3](end_span)
-        welcome_text_2 = (
-            "<tg-emoji emoji-id=\"6334870895227573067\">🚨</tg-emoji> Want to join PRIME Channel for FREE? Here's how: <tg-emoji emoji-id=\"6332267526570906235\">📌</tg-emoji>\n\n"
-            "<tg-emoji emoji-id=\"5305763715692377402\">1️⃣</tg-emoji> Create a fresh new account on 1win\n"
-            "INDIA <tg-emoji emoji-id=\"6136551252781172945\">🇮🇳</tg-emoji> & GLOBAL LINK <tg-emoji emoji-id=\"5271604874419647061\">🔗</tg-emoji>\n\n"
-            "https://lkhe.cc/3e6ff0\n"
-            "https://lkhe.cc/3e6ff0\n\n"
-            "<tg-emoji emoji-id=\"5397782960512444700\">📌</tg-emoji> Use promo code : DS745 <tg-emoji emoji-id=\"5341498088408234504\">💯</tg-emoji><tg-emoji emoji-id=\"6332595047891997036\">‼️</tg-emoji>\n\n"
-            "<tg-emoji emoji-id=\"5307907239380528763\">2️⃣</tg-emoji> Deposit 2000 capital <tg-emoji emoji-id=\"6332375519228597344\">💰</tg-emoji>\n\n"
-            "<tg-emoji emoji-id=\"5305783000095537258\">3️⃣</tg-emoji> Send me the ID - @JetQueen_Silpa\n"
-            "Vip channel FREE of cost.... <tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n\n"
-            "<tg-emoji emoji-id=\"5395695537687123235\">🚨</tg-emoji>Only for serious players who want next-level signals! <tg-emoji emoji-id=\"5341498088408234504\">💯</tg-emoji><tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>"
-        )
+IMAGE_1_URL = "https://i.postimg.cc/mk2bFfwN/IMG-3600.jpg"
+await context.bot.send_photo(
+chat_id=user.id,
+photo=IMAGE_1_URL,
+caption=welcome_text_1,
+parse_mode="HTML"
+)
 
-        IMAGE_2_URL = "https://chatgpt.com/s/m_6ae4e85828808191891657bbc3bdcbff"
-        await context.bot.send_photo(
-            chat_id=user.id,
-            photo=IMAGE_2_URL,
-            caption=welcome_text_2,
-            parse_mode="HTML"
-        )
+# Doosra Welcome Message
+welcome_text_2 = (
+"<tg-emoji emoji-id=\"6334870895227573067\">🚨</tg-emoji> Want to join PRIME Channel for FREE? Here's how: <tg-emoji emoji-id=\"6332267526570906235\">📌</tg-emoji>\n\n"
+"<tg-emoji emoji-id=\"5305763715692377402\">1️⃣</tg-emoji> Create a fresh new account on 1win\n"
+"INDIA <tg-emoji emoji-id=\"6136551252781172945\">🇮🇳</tg-emoji> & GLOBAL LINK <tg-emoji emoji-id=\"5271604874419647061\">🔗</tg-emoji>\n\n"
+"https://lkhe.cc/3e6ff0\n"
+"https://lkhe.cc/3e6ff0\n\n"
+"<tg-emoji emoji-id=\"5397782960512444700\">📌</tg-emoji> Use promo code : DS745 <tg-emoji emoji-id=\"5341498088408234504\">💯</tg-emoji><tg-emoji emoji-id=\"6332595047891997036\">‼️</tg-emoji>\n\n"
+"<tg-emoji emoji-id=\"5307907239380528763\">2️⃣</tg-emoji> Deposit 2000 capital <tg-emoji emoji-id=\"6332375519228597344\">💰</tg-emoji>\n\n"
+"<tg-emoji emoji-id=\"5305783000095537258\">3️⃣</tg-emoji> Send me the ID - @JetQueen_Silpa\n"
+"Vip channel FREE of cost.... <tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n\n"
+"<tg-emoji emoji-id=\"5395695537687123235\">🚨</tg-emoji>Only for serious players who want next-level signals! <tg-emoji emoji-id=\"5341498088408234504\">💯</tg-emoji><tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>"
+)
 
-        logging.info(f"Sent welcome images and messages to {user.full_name}")
+IMAGE_2_URL = "https://chatgpt.com/s/m_6ae4e85828808191891657bbc3bdcbff"
+await context.bot.send_photo(
+chat_id=user.id,
+photo=IMAGE_2_URL,
+caption=welcome_text_2,
+parse_mode="HTML"
+)
 
-    except Exception as e:
-        logging.error(f"Failed to process join request for {user.id}: {e}")
+logging.info(f"Sent welcome images and messages to {user.full_name}")
+
+except Exception as e:
+logging.error(f"Failed to process join request for {user.id}: {e}")
 
 async def welcome_on_join(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    result = update.chat_member
-    if not result:
-        return
+result = update.chat_member
+if not result:
+return
 
-    user = result.new_chat_member.user
-    if user.is_bot:
-        return
+user = result.new_chat_member.user
+if user.is_bot:
+return
 
-    if result.new_chat_member.status == "member":
-        try:
-            welcome_text_1 = (
-                f"<tg-emoji emoji-id=\"6332147812947465142\">🤍</tg-emoji> **Hey JetQueen Community** <tg-emoji emoji-id=\"6332147812947465142\">❤️‍🔥</tg-emoji>\n\n"
-                "<tg-emoji emoji-id=\"5217449524410199951\">🙂</tg-emoji> Say goodbye to random guesses — JetQueen's proven strategies and smart analysis will help you grow your balance like never before! <tg-emoji emoji-id=\"6332375519228597344\">💰</tg-emoji>\n\n"
-                "Start today with just 2000 minimum deposit\n"
-                "use Promo Code: DS745 and unlock your full earning potential\n"
-                "<tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n\n"
-                "<tg-emoji emoji-id=\"6334860759104755103\">👉</tg-emoji> Create your account now:\n"
-                "<tg-emoji emoji-id=\"6334860759104755103\">🌐</tg-emoji> https://lkhe.cc/3e6ff0\n"
-                "<tg-emoji emoji-id=\"6334860759104755103\">🌐</tg-emoji> https://lkhe.cc/3e6ff0\n\n"
-                "<tg-emoji emoji-id=\"6334860759104755103\">🎁</tg-emoji> Promo code:- DS745 <tg-emoji emoji-id=\"6334860759104755103\">✔️</tg-emoji>\n\n"
-                "Message me ID number......me guide karungi apko ki kese earn karna hai bina loss or sahi money management karke <tg-emoji emoji-id=\"6334860759104755103\">💖</tg-emoji>\n\n"
-                "Join us and fly high with Aviator\n"
-                "<tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n"
-                "Let’s make your next game your biggest win!... <tg-emoji emoji-id=\"6334860759104755103\">❤️‍🔥</tg-emoji>"
-            )
+if result.new_chat_member.status == "member":
+try:
+# User ko database me save karein
+add_user(user.id, user.full_name)
 
-            IMAGE_1_URL = "https://i.postimg.cc/mk2bFfwN/IMG-3600.jpg"
-            await context.bot.send_photo(
-                chat_id=user.id,
-                photo=IMAGE_1_URL,
-                caption=welcome_text_1,
-                parse_mode="HTML"
-            )
+welcome_text_1 = (
+f"<tg-emoji emoji-id=\"6332147812947465142\">🤍</tg-emoji> **Hey JetQueen Community** <tg-emoji emoji-id=\"6332147812947465142\">❤️‍🔥</tg-emoji>\n\n"
+"<tg-emoji emoji-id=\"5217449524410199951\">🙂</tg-emoji> Say goodbye to random guesses — JetQueen's proven strategies and smart analysis will help you grow your balance like never before! <tg-emoji emoji-id=\"6332375519228597344\">💰</tg-emoji>\n\n"
+"Start today with just 2000 minimum deposit\n"
+"use Promo Code: DS745 and unlock your full earning potential\n"
+"<tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n\n"
+"<tg-emoji emoji-id=\"6334860759104755103\">👉</tg-emoji> Create your account now:\n"
+"<tg-emoji emoji-id=\"6334860759104755103\">🌐</tg-emoji> https://lkhe.cc/3e6ff0\n"
+"<tg-emoji emoji-id=\"6334860759104755103\">🌐</tg-emoji> https://lkhe.cc/3e6ff0\n\n"
+"<tg-emoji emoji-id=\"6334860759104755103\">🎁</tg-emoji> Promo code:- DS745 <tg-emoji emoji-id=\"6334860759104755103\">✔️</tg-emoji>\n\n"
+"Message me ID number......me guide karungi apko ki kese earn karna hai bina loss or sahi money management karke <tg-emoji emoji-id=\"6334860759104755103\">💖</tg-emoji>\n\n"
+"Join us and fly high with Aviator\n"
+"<tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n"
+"Let’s make your next game your biggest win!... <tg-emoji emoji-id=\"6334860759104755103\">❤️‍🔥</tg-emoji>"
+)
 
-            welcome_text_2 = (
-                "<tg-emoji emoji-id=\"6334870895227573067\">🚨</tg-emoji> Want to join PRIME Channel for FREE? Here's how: <tg-emoji emoji-id=\"6332267526570906235\">📌</tg-emoji>\n\n"
-                "<tg-emoji emoji-id=\"5305763715692377402\">1️⃣</tg-emoji> Create a fresh new account on 1win\n"
-                "INDIA <tg-emoji emoji-id=\"6136551252781172945\">🇮🇳</tg-emoji> & GLOBAL LINK <tg-emoji emoji-id=\"5271604874419647061\">🔗</tg-emoji>\n\n"
-                "https://lkhe.cc/3e6ff0\n"
-                "https://lkhe.cc/3e6ff0\n\n"
-                "<tg-emoji emoji-id=\"5397782960512444700\">📌</tg-emoji> Use promo code : DS745 <tg-emoji emoji-id=\"5341498088408234504\">💯</tg-emoji><tg-emoji emoji-id=\"6332595047891997036\">‼️</tg-emoji>\n\n"
-                "<tg-emoji emoji-id=\"5307907239380528763\">2️⃣</tg-emoji> Deposit 2000 capital <tg-emoji emoji-id=\"6332375519228597344\">💰</tg-emoji>\n\n"
-                "<tg-emoji emoji-id=\"5305783000095537258\">3️⃣</tg-emoji> Send me the ID - @JetQueen_Silpa\n"
-                "Vip channel FREE of cost.... <tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n\n"
-                "<tg-emoji emoji-id=\"5395695537687123235\">🚨</tg-emoji>Only for serious players who want next-level signals! <tg-emoji emoji-id=\"5341498088408234504\">💯</tg-emoji><tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>"
-            )
+IMAGE_1_URL = "https://i.postimg.cc/mk2bFfwN/IMG-3600.jpg"
+await context.bot.send_photo(
+chat_id=user.id,
+photo=IMAGE_1_URL,
+caption=welcome_text_1,
+parse_mode="HTML"
+)
 
-            IMAGE_2_URL = "https://chatgpt.com/s/m_6ae4e85828808191891657bbc3bdcbff"
-            await context.bot.send_photo(
-                chat_id=user.id,
-                photo=IMAGE_2_URL,
-                caption=welcome_text_2,
-                parse_mode="HTML"
-            )
+welcome_text_2 = (
+"<tg-emoji emoji-id=\"6334870895227573067\">🚨</tg-emoji> Want to join PRIME Channel for FREE? Here's how: <tg-emoji emoji-id=\"6332267526570906235\">📌</tg-emoji>\n\n"
+"<tg-emoji emoji-id=\"5305763715692377402\">1️⃣</tg-emoji> Create a fresh new account on 1win\n"
+"INDIA <tg-emoji emoji-id=\"6136551252781172945\">🇮🇳</tg-emoji> & GLOBAL LINK <tg-emoji emoji-id=\"5271604874419647061\">🔗</tg-emoji>\n\n"
+"https://lkhe.cc/3e6ff0\n"
+"https://lkhe.cc/3e6ff0\n\n"
+"<tg-emoji emoji-id=\"5397782960512444700\">📌</tg-emoji> Use promo code : DS745 <tg-emoji emoji-id=\"5341498088408234504\">💯</tg-emoji><tg-emoji emoji-id=\"6332595047891997036\">‼️</tg-emoji>\n\n"
+"<tg-emoji emoji-id=\"5307907239380528763\">2️⃣</tg-emoji> Deposit 2000 capital <tg-emoji emoji-id=\"6332375519228597344\">💰</tg-emoji>\n\n"
+"<tg-emoji emoji-id=\"5305783000095537258\">3️⃣</tg-emoji> Send me the ID - @JetQueen_Silpa\n"
+"Vip channel FREE of cost.... <tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n\n"
+"<tg-emoji emoji-id=\"5395695537687123235\">🚨</tg-emoji>Only for serious players who want next-level signals! <tg-emoji emoji-id=\"5341498088408234504\">💯</tg-emoji><tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>"
+)
 
-            logging.info(f"Sent manual welcome images to {user.full_name}")
-        except Exception as e:
-            logging.error(f"Failed to send manual welcome message: {e}")
+IMAGE_2_URL = "https://chatgpt.com/s/m_6ae4e85828808191891657bbc3bdcbff"
+await context.bot.send_photo(
+chat_id=user.id,
+photo=IMAGE_2_URL,
+caption=welcome_text_2,
+parse_mode="HTML"
+)
+
+logging.info(f"Sent manual welcome images to {user.full_name}")
+except Exception as e:
+logging.error(f"Failed to send manual welcome message: {e}")
+
+# --- BROADCAST COMMAND ---
+async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+if not context.args:
+await update.message.reply_text("⚠️ Message likhna bhul gaye! Use: /broadcast Aapka message yahan")
+return
+
+message_text = " ".join(context.args)
+users = get_all_users()
+
+success = 0
+failed = 0
+
+status_msg = await update.message.reply_text(f"🚀 Broadcasting to {len(users)} users...")
+
+for user_id in users:
+try:
+await context.bot.send_message(chat_id=user_id, text=message_text, parse_mode="HTML")
+success += 1
+except Exception:
+failed += 1
+
+await status_msg.edit_text(f"✅ Broadcast Done!\n\nSuccess: {success}\nFailed: {failed}")
 
 def main() -> None:
-    keep_alive()
-    application =ApplicationBuilder().token(TOKEN).connect_timeout(30).read_timeout(30).write_timeout(30).build()
+init_db() # Database table create karega
+keep_alive()
+application = ApplicationBuilder().token(TOKEN).connect_timeout(30).read_timeout(30).write_timeout(30).build()
 
-    application.add_handler(ChatJoinRequestHandler(accept_and_welcome))
-    application.add_handler(ChatMemberHandler(welcome_on_join, ChatMemberHandler.CHAT_MEMBER))
+application.add_handler(ChatJoinRequestHandler(accept_and_welcome))
+application.add_handler(ChatMemberHandler(welcome_on_join, ChatMemberHandler.CHAT_MEMBER))
+application.add_handler(CommandHandler("broadcast", broadcast)) # Broadcast command added
 
-    print("Bot and web server are running...")
-    application.run_polling()
+print("Bot and web server are running...")
+application.run_polling()
 
 if __name__ == "__main__":
-    main()
+main()
 
 
