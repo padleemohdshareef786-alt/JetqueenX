@@ -5,91 +5,89 @@ from flask import Flask
 import sqlite3
 from telegram import Update
 from telegram.ext import (
-ApplicationBuilder,
-ChatJoinRequestHandler,
-ChatMemberHandler,
-CommandHandler,
-ContextTypes
+    ApplicationBuilder,
+    ChatJoinRequestHandler,
+    ChatMemberHandler,
+    CommandHandler,
+    ContextTypes
 )
 
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 
 # --- DATABASE SETUP ---
 def init_db():
-conn = sqlite3.connect("bot_users.db")
-cursor = conn.cursor()
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS users (
-user_id INTEGER PRIMARY KEY,
-full_name TEXT
-)
-""")
-conn.commit()
-conn.close()
+    conn = sqlite3.connect("bot_users.db")
+    cursor = conn.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            user_id INTEGER PRIMARY KEY,
+            full_name TEXT
+        )
+    """)
+    conn.commit()
+    conn.close()
 
 def add_user(user_id, full_name):
-conn = sqlite3.connect("bot_users.db")
-cursor = conn.cursor()
-try:
-cursor.execute("INSERT OR IGNORE INTO users (user_id, full_name) VALUES (?, ?)", (user_id, full_name))
-conn.commit()
-except Exception as e:
-logging.error(f"DB Error: {e}")
-finally:
-conn.close()
+    conn = sqlite3.connect("bot_users.db")
+    cursor = conn.cursor()
+    try:
+        cursor.execute("INSERT OR IGNORE INTO users (user_id, full_name) VALUES (?, ?)", (user_id, full_name))
+        conn.commit()
+    except Exception as e:
+        logging.error(f"DB Error: {e}")
+    finally:
+        conn.close()
 
 def get_all_users():
-conn = sqlite3.connect("bot_users.db")
-cursor = conn.cursor()
-cursor.execute("SELECT user_id FROM users")
-users = cursor.fetchall()
-conn.close()
-return [user[0] for user in users]
+    conn = sqlite3.connect("bot_users.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT user_id FROM users")
+    users = cursor.fetchall()
+    conn.close()
+    return [user[0] for user in users]
 
 app = Flask('')
 
 @app.route('/')
 def home():
-return "Jetqueen Bot is Alive and Running!"
+    return "Jetqueen Bot is Alive and Running!"
 
 def run_web():
-app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 8080)))
+    app.run(host='0.0.0.0', port=int(os.environ.get("PORT", 8080)))
 
 def keep_alive():
-t = Thread(target=run_web)
-t.start()
+    t = Thread(target=run_web)
+    t.start()
 
 TOKEN = "8799481114:AAF9Z1OFISsXk_qBd9b-nzUARYYXxUs2e3M"
 
 async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-chat_join_request = update.chat_join_request
-if not chat_join_request:
-return
+    chat_join_request = update.chat_join_request
+    if not chat_join_request:
+        return
+ 
+    try:
+        chat = chat_join_request.chat
+        user = chat_join_request.from_user
 
-try:
-chat = chat_join_request.chat
-user = chat_join_request.from_user
+        add_user(user.id, user.full_name)
 
-add_user(user.id, user.full_name)
+        await chat_join_request.approve()
+        logging.info(f"Approved join request for {user.full_name}")
 
-await chat_join_request.approve()
-logging.info(f"Approved join request for {user.full_name}")
-
-welcome_text_1 = (
-f"<tg-emoji emoji-id=\"6332147812947465142\">🤍</tg-emoji> **Hey JetQueen Community** <tg-emoji emoji-id=\"6332147812947465142\">❤️‍🔥</tg-emoji>\n\n"
-"<tg-emoji emoji-id=\"5217449524410199951\">🙂</tg-emoji> Say goodbye to random guesses — JetQueen's proven strategies and smart analysis will help you grow your balance like never before! <tg-emoji emoji-id=\"6332375519228597344\">💰</tg-emoji>\n\n"
-"Start today with just 2000 minimum deposit\n"
-"use Promo Code: DS745 and unlock your full earning potential\n"
-"<tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n\n"
-"<tg-emoji emoji-id=\"6334860759104755103\">👉</tg-emoji> Create your account now:\n"
-"<tg-emoji emoji-id=\"6334860759104755103\">🌐</tg-emoji> https://lkhe.cc/3e6ff0\n"
-"<tg-emoji emoji-id=\"6334860759104755103\">🌐</tg-emoji> https://lkhe.cc/3e6ff0\n\n"
-"<tg-emoji emoji-id=\"6334860759104755103\">🎁</tg-emoji> Promo code:- DS745 <tg-emoji emoji-id=\"6334860759104755103\">✔️</tg-emoji>\n\n"
-"Message me ID number......me guide karungi apko ki kese earn karna hai bina loss or sahi money management karke <tg-emoji emoji-id=\"6334860759104755103\">💖</tg-emoji>\n\n"
-"Join us and fly high with Aviator\n"
-"<tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n"
-"Let’s make your next game your biggest win!... <tg-emoji emoji-id=\"6334860759104755103\">❤️‍🔥</tg-emoji>"
-)
+        welcome_text_1 = (
+            f"<tg-emoji emoji-id=\"6332147812947465142\">🤍</tg-emoji> **Hey JetQueen Community** <tg-emoji emoji-id=\"6332147812947465142\">❤️‍🔥</tg-emoji>\n\n"
+            "<tg-emoji emoji-id=\"5217449524410199951\">🙂</tg-emoji> Say goodbye to random guesses — JetQueen's proven strategies and smart analysis will help you grow your balance like never before! <tg-emoji emoji-id=\"6332375519228597344\">💰</tg-emoji>\n\n"
+            "Start today with just 2000 minimum deposit\n"
+            "use Promo Code: DS745 and unlock your full earning potential\n"
+            "<tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n\n"
+            "<tg-emoji emoji-id=\"6334860759104755103\">👉</tg-emoji> Create your account now:\n"<tg-emoji emoji-id=\"6334860759104755103\">🌐</tg-emoji> https://lkhe.cc/3e6ff0\n"
+            "<tg-emoji emoji-id=\"6334860759104755103\">🌐</tg-emoji> https://lkhe.cc/3e6ff0\n\n"
+            "<tg-emoji emoji-id=\"6334860759104755103\">🎁</tg-emoji> Promo code:- DS745 <tg-emoji emoji-id=\"6334860759104755103\">✔️</tg-emoji>\n\n"
+            "Message me ID number......me guide karungi apko ki kese earn karna hai bina loss or sahi money management karke <tg-emoji emoji-id=\"6334860759104755103\">💖</tg-emoji>\n\n"
+            "Join us and fly high with Aviator\n"
+            "<tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n"
+            "Let’s make your next game your biggest win!... <tg-emoji emoji-id=\"6334860759104755103\">❤️‍🔥</tg-emoji>")
 
 IMAGE_1_URL = "https://i.postimg.cc/mk2bFfwN/IMG-3600.jpg"
 await context.bot.send_photo(
