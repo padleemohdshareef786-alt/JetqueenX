@@ -59,11 +59,8 @@ def keep_alive():
     t = Thread(target=run_web)
     t.start()
 
-# --- Aapka naya API Token ---
 TOKEN = "9287218663:AAFyuCy8-Lt3FcBPym6pTCRdTB3qeypHImA"
-
-# --- Aapke upload kiye hue voice file ka path ---
-VOICE_FILE_PATH = "audio.ogg"  # Agar file ka naam alag hai toh yahan change kar lein[span_2](start_span)[span_2](end_span)
+VOICE_FILE_PATH = "audio.ogg"
 
 async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     chat_join_request = update.chat_join_request
@@ -79,6 +76,7 @@ async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE)
         await chat_join_request.approve()
         logging.info(f"Approved join request for {user.full_name}")
 
+        # 1. Welcome Message 1
         welcome_text_1 = (
             f"<tg-emoji emoji-id=\"6332147812947465142\">🤍</tg-emoji> **Hey JetQueen Community** <tg-emoji emoji-id=\"6332147812947465142\">❤️‍🔥</tg-emoji>\n\n"
             "<tg-emoji emoji-id=\"5217449524410199951\">🙂</tg-emoji> Say goodbye to random guesses — JetQueen's proven strategies and smart analysis will help you grow your balance like never before! <tg-emoji emoji-id=\"6332375519228597344\">💰</tg-emoji>\n\n"
@@ -94,7 +92,6 @@ async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE)
             "<tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n"
             "Let’s make your next game your biggest win!... <tg-emoji emoji-id=\"6334860759104755103\">❤️‍🔥</tg-emoji>"
         )
-
         IMAGE_1_URL = "https://i.postimg.cc/mk2bFfwN/IMG-3600.jpg"
         await context.bot.send_photo(
             chat_id=user.id,
@@ -103,20 +100,7 @@ async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE)
             parse_mode="HTML"
         )
 
-        # --- Yahan aapka voice message send hoga ---
-        if os.path.exists(VOICE_FILE_PATH):
-            try:
-                with open(VOICE_FILE_PATH, 'rb') as voice_file:
-                    await context.bot.send_voice(
-                        chat_id=user.id,
-                        voice=voice_file
-                    )
-                logging.info(f"Sent voice message to {user.full_name}")
-            except Exception as voice_err:
-                logging.error(f"Failed to send voice file: {voice_err}")
-        else:
-            logging.warning(f"Voice file not found at path: {VOICE_FILE_PATH}")
-
+        # 2. Welcome Message 2
         welcome_text_2 = (
             "<tg-emoji emoji-id=\"6334870895227573067\">🚨</tg-emoji> Want to join PRIME Channel for FREE? Here's how: <tg-emoji emoji-id=\"6332267526570906235\">📌</tg-emoji>\n\n"
             "<tg-emoji emoji-id=\"5305763715692377402\">1️⃣</tg-emoji> Create a fresh new account on 1win\n"
@@ -129,7 +113,6 @@ async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE)
             "Vip channel FREE of cost.... <tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n\n"
             "<tg-emoji emoji-id=\"5395695537687123235\">🚨</tg-emoji>Only for serious players who want next-level signals! <tg-emoji emoji-id=\"5341498088408234504\">💯</tg-emoji><tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>"
         )
-
         IMAGE_2_URL = "https://i.postimg.cc/mk2bFfwN/IMG-3600.jpg"
         await context.bot.send_photo(
             chat_id=user.id,
@@ -137,6 +120,20 @@ async def accept_and_welcome(update: Update, context: ContextTypes.DEFAULT_TYPE)
             caption=welcome_text_2,
             parse_mode="HTML"
         )
+
+        # 3. Voice Message (Sabse Last Me)
+        if os.path.exists(VOICE_FILE_PATH):
+            try:
+                with open(VOICE_FILE_PATH, 'rb') as voice_file:
+                    await context.bot.send_voice(
+                        chat_id=user.id,
+                        voice=voice_file
+                    )
+                logging.info(f"Sent voice message to {user.full_name}")
+            except Exception as voice_err:
+                logging.error(f"Failed to send voice file: {voice_err}")
+        else:
+            logging.warning(f"Voice file not found at path: {VOICE_FILE_PATH}")
 
         logging.info(f"Sent all welcome messages and voice note to {user.full_name}")
 
@@ -156,6 +153,7 @@ async def welcome_on_join(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         try:
             add_user(user.id, user.full_name)
 
+            # 1. Welcome Message 1
             welcome_text_1 = (
                 f"<tg-emoji emoji-id=\"6332147812947465142\">🤍</tg-emoji> **Hey JetQueen Community** <tg-emoji emoji-id=\"6332147812947465142\">❤️‍🔥</tg-emoji>\n\n"
                 "<tg-emoji emoji-id=\"5217449524410199951\">🙂</tg-emoji> Say goodbye to random guesses — JetQueen's proven strategies and smart analysis will help you grow your balance like never before! <tg-emoji emoji-id=\"6332375519228597344\">💰</tg-emoji>\n\n"
@@ -171,7 +169,6 @@ async def welcome_on_join(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
                 "<tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n"
                 "Let’s make your next game your biggest win!... <tg-emoji emoji-id=\"6334860759104755103\">❤️‍🔥</tg-emoji>"
             )
-
             IMAGE_1_URL = "https://i.postimg.cc/mk2bFfwN/IMG-3600.jpg"
             await context.bot.send_photo(
                 chat_id=user.id,
@@ -180,17 +177,7 @@ async def welcome_on_join(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
                 parse_mode="HTML"
             )
 
-            # --- Yahan manual join ke liye bhi voice message send hoga ---
-            if os.path.exists(VOICE_FILE_PATH):
-                try:
-                    with open(VOICE_FILE_PATH, 'rb') as voice_file:
-                        await context.bot.send_voice(
-                            chat_id=user.id,
-                            voice=voice_file
-                        )
-                except Exception as voice_err:
-                    logging.error(f"Failed to send manual voice file: {voice_err}")
-
+            # 2. Welcome Message 2
             welcome_text_2 = (
                 "<tg-emoji emoji-id=\"6334870895227573067\">🚨</tg-emoji> Want to join PRIME Channel for FREE? Here's how: <tg-emoji emoji-id=\"6332267526570906235\">📌</tg-emoji>\n\n"
                 "<tg-emoji emoji-id=\"5305763715692377402\">1️⃣</tg-emoji> Create a fresh new account on 1win\n"
@@ -203,7 +190,6 @@ async def welcome_on_join(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
                 "Vip channel FREE of cost.... <tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>\n\n"
                 "<tg-emoji emoji-id=\"5395695537687123235\">🚨</tg-emoji>Only for serious players who want next-level signals! <tg-emoji emoji-id=\"5341498088408234504\">💯</tg-emoji><tg-emoji emoji-id=\"6334860759104755103\">🚀</tg-emoji>"
             )
-
             IMAGE_2_URL = "https://i.postimg.cc/mk2bFfwN/IMG-3600.jpg"
             await context.bot.send_photo(
                 chat_id=user.id,
@@ -211,6 +197,17 @@ async def welcome_on_join(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
                 caption=welcome_text_2,
                 parse_mode="HTML"
             )
+
+            # 3. Voice Message (Sabse Last Me)
+            if os.path.exists(VOICE_FILE_PATH):
+                try:
+                    with open(VOICE_FILE_PATH, 'rb') as voice_file:
+                        await context.bot.send_voice(
+                            chat_id=user.id,
+                            voice=voice_file
+                        )
+                except Exception as voice_err:
+                    logging.error(f"Failed to send manual voice file: {voice_err}")
 
             logging.info(f"Sent manual welcome messages and voice note to {user.full_name}")
         except Exception as e:
